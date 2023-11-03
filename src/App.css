@@ -167,6 +167,45 @@ button#submit-btn {
   background-color: rgba(187, 54, 10, 0.171);
   border-radius: 8px;
 }
+.repeat {
+  position: absolute;
+  bottom: 5rem;
+  right: 1rem;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  background-color: #f4b860;
+  flex-wrap: wrap;
+  border-radius: 10px;
+}
+.repeat #interval {
+  width: 3rem;
+}
+.daypicker {
+  display: flex;
+}
+.day {
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+  margin: 5px;
+  font-size: 1rem;
+  background-color: orangered;
+  border-radius: 2px;
+}
+.day.selected {
+  background-color: cornflowerblue;
+}
+.repeat button[type="submit"] {
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  padding: 5px 15px;
+}
+#repeat-submitbtn {
+  background-color: teal;
+}
 @keyframes slide {
   0% {
     bottom: 50px;

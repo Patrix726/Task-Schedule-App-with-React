@@ -10,7 +10,8 @@ function App() {
   const [input, setInput] = useState(false);
   const [schedules, setSchedules] = useState([]);
   const [tasks, setTasks] = useState([]);
-  const [menu, setMenu] = useState(0);
+  const [currentView, setCurrentView] = useState(0);
+  const [data, setData] = useState({});
   const wrapperRef = useRef();
   useEffect(() => {
     function handleClickOutside(event) {
@@ -24,6 +25,20 @@ function App() {
     };
   }, [wrapperRef]);
 
+  useEffect(() => {
+    if (currentView === 0) {
+      setData({ schedules: schedules, tasks: tasks });
+    } else if (currentView === 1) {
+      setData({ schedules: schedules, tasks: [] });
+    } else if (currentView === 2) {
+      setData({ schedules: [], tasks: tasks });
+    }
+  }, [currentView]);
+
+  useEffect(() => {
+    setData({ schedules: schedules, tasks: tasks });
+  }, [schedules, tasks]);
+
   const date = new Date();
   const weekday = [
     "Sunday",
@@ -35,9 +50,11 @@ function App() {
     "Saturday",
   ];
 
-  function onSubmit() {
+  function onSubmit(repeatData) {
+    console.log(repeatData);
     const data = [...wrapperRef.current.childNodes];
     let modData = {};
+    modData.repeatData = repeatData;
     data.forEach((val) => {
       if (val.type !== "submit") {
         if (val.value === "") {
@@ -92,8 +109,8 @@ function App() {
     }
   }
   const schedulesData =
-    schedules &&
-    schedules.map((val, ind) => {
+    data.schedules &&
+    data.schedules.map((val, ind) => {
       const hour = parseInt(val.hour);
       const min = parseInt(val.minutes);
       let sec = parseInt(val.seconds);
@@ -114,8 +131,8 @@ function App() {
     });
 
   const tasksData =
-    tasks &&
-    tasks.map((val, ind) => {
+    data.tasks &&
+    data.tasks.map((val, ind) => {
       const [year, month, day] = val.date.split("-");
       const deadline = new Date(year, month, day);
       return (
@@ -130,7 +147,7 @@ function App() {
     });
   return (
     <>
-      <Nav />
+      <Nav setCurrentView={setCurrentView} />
       <div className="header">
         <div className="title-date">
           <span>Today's Schedule</span>

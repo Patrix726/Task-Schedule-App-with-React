@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 
-const Nav = () => {
+const Nav = ({ setCurrentView }) => {
   const [expand, setExpand] = useState(true);
   return (
     <nav className="nav">
@@ -16,9 +17,30 @@ const Nav = () => {
             To
           </button>
           <div className="groups">
-            <button className="navbtn">T</button>
-            <button className="navbtn">S</button>
-            <button className="navbtn">T</button>
+            <button
+              className="navbtn"
+              onClick={() => {
+                setCurrentView(0);
+              }}
+            >
+              T
+            </button>
+            <button
+              className="navbtn"
+              onClick={() => {
+                setCurrentView(1);
+              }}
+            >
+              S
+            </button>
+            <button
+              className="navbtn"
+              onClick={() => {
+                setCurrentView(2);
+              }}
+            >
+              T
+            </button>
           </div>
           <button className="navbtn">+</button>
         </>
@@ -34,9 +56,30 @@ const Nav = () => {
             Toggle
           </button>
           <div className="groups">
-            <button className="navbtn">Today</button>
-            <button className="navbtn">Schedules</button>
-            <button className="navbtn">Tasks</button>
+            <button
+              className="navbtn"
+              onClick={() => {
+                setCurrentView(0);
+              }}
+            >
+              Today
+            </button>
+            <button
+              className="navbtn"
+              onClick={() => {
+                setCurrentView(1);
+              }}
+            >
+              Schedules
+            </button>
+            <button
+              className="navbtn"
+              onClick={() => {
+                setCurrentView(2);
+              }}
+            >
+              Tasks
+            </button>
           </div>
           <button className="navbtn">Add Group</button>
         </>
