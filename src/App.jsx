@@ -8,8 +8,12 @@ import Nav from "./Components/Nav";
 
 function App() {
   const [input, setInput] = useState(false);
-  const [schedules, setSchedules] = useState([]);
-  const [tasks, setTasks] = useState([]);
+  const [schedules, setSchedules] = useState(
+    JSON.parse(localStorage.getItem("data")).schedules || []
+  );
+  const [tasks, setTasks] = useState(
+    JSON.parse(localStorage.getItem("data")).tasks || []
+  );
   const [currentView, setCurrentView] = useState(0);
   const [data, setData] = useState({});
   const wrapperRef = useRef();
@@ -26,8 +30,27 @@ function App() {
   }, [wrapperRef]);
 
   useEffect(() => {
+    function filter(schedule) {
+      const repeatData = schedule.repeatData;
+      const createdDate = new Date(schedule.dateCreated);
+      const diffTime = Math.abs(date - createdDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const gap = [1, 7, 30, 365];
+      if (repeatData) {
+        return (
+          diffDays < 1 ||
+          diffDays %
+            (repeatData.intervalNum * gap[repeatData.intervalGap] === 0)
+        );
+      } else {
+        return date.getDate() === createdDate.getDate();
+      }
+    }
     if (currentView === 0) {
-      setData({ schedules: schedules, tasks: tasks });
+      setData({
+        schedules: schedules.filter((val) => filter(val)),
+        tasks: tasks,
+      });
     } else if (currentView === 1) {
       setData({ schedules: schedules, tasks: [] });
     } else if (currentView === 2) {
@@ -36,6 +59,10 @@ function App() {
   }, [currentView]);
 
   useEffect(() => {
+    localStorage.setItem(
+      "data",
+      JSON.stringify({ schedules: schedules, tasks: tasks })
+    );
     setData({ schedules: schedules, tasks: tasks });
   }, [schedules, tasks]);
 
@@ -51,9 +78,9 @@ function App() {
   ];
 
   function onSubmit(repeatData) {
-    console.log(repeatData);
     const data = [...wrapperRef.current.childNodes];
     let modData = {};
+    modData.dateCreated = date;
     modData.repeatData = repeatData;
     data.forEach((val) => {
       if (val.type !== "submit") {
@@ -103,7 +130,6 @@ function App() {
         const filtered = prev.filter(
           (item, ind) => ind !== parseInt(component.id)
         );
-        console.log(filtered);
         return filtered;
       });
     }

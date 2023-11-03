@@ -15,9 +15,24 @@ function AddSchedule({ onSubmit, wrapperRef }) {
   }
   function repeatDay() {
     const value = repeat.current.value;
-    console.log(value);
     if (value === "Custom") {
       setCustomInt(true);
+    } else if (value === "Everyday") {
+      setRepeatData({ intervalNum: 1, intervalGap: 0 });
+    } else if (value === "Mon-Fri") {
+      setRepeatData({
+        intervalNum: 1,
+        intervalGap: 1,
+        selectedDays: [1, 2, 3, 4, 5],
+      });
+    } else if (value === "Weekends") {
+      setRepeatData({
+        intervalNum: 1,
+        intervalGap: 1,
+        selectedDays: [0, 6],
+      });
+    } else {
+      setRepeatData({});
     }
   }
   function selectDay(e) {
@@ -178,7 +193,14 @@ function AddSchedule({ onSubmit, wrapperRef }) {
             onChange={handleChange}
             defaultValue={"00"}
           />
-          <select onChange={repeatDay} ref={repeat}>
+          <select
+            onChange={repeatDay}
+            ref={repeat}
+            name="repeat"
+            defaultValue={"Select Repeat"}
+          >
+            <option disabled>Select Repeat</option>
+            <option>No Repeat</option>
             <option>Everyday</option>
             <option>Mon-Fri</option>
             <option>Weekends</option>
@@ -189,7 +211,9 @@ function AddSchedule({ onSubmit, wrapperRef }) {
       <button
         type="submit"
         id="submit-btn"
-        onClick={() => onSubmit(repeatData)}
+        onClick={() => {
+          onSubmit(repeatData);
+        }}
       >
         +
       </button>
