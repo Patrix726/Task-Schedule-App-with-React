@@ -1,0 +1,179 @@
+@import url("https://fonts.googleapis.com/css2?family=Francois+One&family=Inter:wght@400;700&display=swap");
+body {
+  display: flex;
+  justify-content: center;
+}
+nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: fixed;
+  left: 0;
+  background-color: aliceblue;
+  height: 100vh;
+  padding: 30px;
+  transition: all 0.5s ease-in;
+}
+nav .groups {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: auto;
+}
+.navbtn {
+  font-size: 1.2rem;
+  text-align: left;
+}
+#hamburger {
+  margin-bottom: 3rem;
+}
+.header {
+  display: flex;
+  justify-content: space-around;
+  width: 100vw;
+}
+.title-date {
+  color: #000;
+  font-family: "Inter";
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 3.125rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+.date-value {
+  color: #f4b860;
+}
+.countdown {
+  font-size: 2rem;
+  font-family: monospace;
+  padding: 2px;
+  margin: 0 10px;
+  background-color: rgba(245, 245, 220, 0.171);
+  border-radius: 8px;
+}
+.countdown.completed {
+  color: rgb(54, 253, 54);
+}
+.schedules {
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  width: 80vw;
+  justify-content: center;
+  align-items: center;
+}
+.tasks {
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  width: 80vw;
+  justify-content: center;
+  align-items: center;
+}
+.schedule {
+  width: 50vw;
+  border-radius: 20px;
+  background: #f8d57e;
+  transition: all 0.5s;
+  align-items: center;
+  margin: 10px 0;
+}
+.task {
+  width: 50vw;
+  border-radius: 20px;
+  background: #f8d57e;
+  transition: all 0.5s;
+  align-items: center;
+  margin: 10px 0;
+}
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+.title {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  height: 75px;
+  font-size: 24px;
+  text-align: left;
+  padding-left: 20px;
+}
+.detail {
+  background-color: #f6f7fb;
+  padding: 20px;
+}
+.inputSchedule {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 0;
+  right: 0;
+  width: 55vw;
+  padding: 15px;
+  bottom: 10px;
+  border-radius: 8px;
+  background-color: #f8d57e;
+  margin: 0 auto;
+  animation: slide 0.1s ease-in;
+  transition: all 0.5s;
+}
+.inputSchedule * {
+  padding: 5px;
+  padding-left: 20px;
+  font-size: 1.2rem;
+}
+.invalid {
+  border: solid red 2px;
+}
+.inputTime {
+  width: 50px;
+  background-color: white;
+  margin: 0 2px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  padding: 5px 1px;
+  text-align: right;
+}
+#inputText {
+  width: 70%;
+}
+#inputDate {
+  width: fit-content;
+  padding: 5px 0;
+}
+button#submit-btn {
+  font-size: 1.2rem;
+  margin-left: 10px;
+  padding: 0;
+  min-width: 40px;
+  min-height: 40px;
+  background-color: rgba(2, 71, 145, 0.463);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.deadline {
+  font-size: 1.2rem;
+  font-family: monospace;
+  padding: 2px;
+  margin: 0 10px;
+  color: rgba(176, 5, 5, 0.666);
+  background-color: rgba(187, 54, 10, 0.171);
+  border-radius: 8px;
+}
+@keyframes slide {
+  0% {
+    bottom: 50px;
+    opacity: 0;
+  }
+  100% {
+    bottom: 10px;
+    opacity: 1;
+  }
+}
