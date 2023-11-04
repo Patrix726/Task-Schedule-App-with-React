@@ -1,8 +1,20 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import schedule from "../assets/schedule.png";
+import todo from "../assets/todo.png";
+import clock from "../assets/clock.png";
 
 const Nav = ({ setCurrentView }) => {
-  const [expand, setExpand] = useState(true);
+  const [expand, setExpand] = useState(getValue());
+
+  function getValue() {
+    const val = JSON.parse(localStorage.getItem("nav"));
+    return val === null ? true : val;
+  }
+  useEffect(() => {
+    localStorage.setItem("nav", JSON.stringify(expand));
+  }, [expand]);
   return (
     <nav className="nav">
       {expand ? (
@@ -11,7 +23,53 @@ const Nav = ({ setCurrentView }) => {
             className="navbtn"
             id="hamburger"
             onClick={() => {
-              setExpand((prev) => !prev);
+              setExpand(!expand);
+            }}
+          >
+            Tog
+          </button>
+          <div className="groups">
+            <button
+              className="navbtn"
+              onClick={() => {
+                setCurrentView(0);
+              }}
+            >
+              <img src={clock} alt="clock icon" className="nav-img-icons" />
+              <span>Today's Schedule</span>
+            </button>
+            <button
+              className="navbtn"
+              onClick={() => {
+                setCurrentView(1);
+              }}
+            >
+              <img
+                src={schedule}
+                alt="schedule icon"
+                className="nav-img-icons"
+              />
+              <span>All Schedules</span>
+            </button>
+            <button
+              className="navbtn"
+              onClick={() => {
+                setCurrentView(2);
+              }}
+            >
+              <img src={todo} alt="todo icon" className="nav-img-icons" />
+              <span>All Tasks</span>
+            </button>
+          </div>
+          <button className="navbtn">+</button>
+        </>
+      ) : (
+        <>
+          <button
+            className="navbtn"
+            id="hamburger"
+            onClick={() => {
+              setExpand(!expand);
             }}
           >
             To
@@ -23,7 +81,7 @@ const Nav = ({ setCurrentView }) => {
                 setCurrentView(0);
               }}
             >
-              T
+              <img src={clock} alt="clock icon" className="nav-img-icons" />
             </button>
             <button
               className="navbtn"
@@ -31,7 +89,11 @@ const Nav = ({ setCurrentView }) => {
                 setCurrentView(1);
               }}
             >
-              S
+              <img
+                src={schedule}
+                alt="schedule icon"
+                className="nav-img-icons"
+              />
             </button>
             <button
               className="navbtn"
@@ -39,49 +101,10 @@ const Nav = ({ setCurrentView }) => {
                 setCurrentView(2);
               }}
             >
-              T
+              <img src={todo} alt="todo icon" className="nav-img-icons" />
             </button>
           </div>
           <button className="navbtn">+</button>
-        </>
-      ) : (
-        <>
-          <button
-            className="navbtn"
-            id="hamburger"
-            onClick={() => {
-              setExpand((prev) => !prev);
-            }}
-          >
-            Toggle
-          </button>
-          <div className="groups">
-            <button
-              className="navbtn"
-              onClick={() => {
-                setCurrentView(0);
-              }}
-            >
-              Today
-            </button>
-            <button
-              className="navbtn"
-              onClick={() => {
-                setCurrentView(1);
-              }}
-            >
-              Schedules
-            </button>
-            <button
-              className="navbtn"
-              onClick={() => {
-                setCurrentView(2);
-              }}
-            >
-              Tasks
-            </button>
-          </div>
-          <button className="navbtn">Add Group</button>
         </>
       )}
     </nav>

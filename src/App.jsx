@@ -28,27 +28,14 @@ function App() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [wrapperRef]);
-
   useEffect(() => {
-    function filter(schedule) {
-      const repeatData = schedule.repeatData;
-      const createdDate = new Date(schedule.dateCreated);
-      const diffTime = Math.abs(date - createdDate);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      const gap = [1, 7, 30, 365];
-      if (repeatData) {
-        return (
-          diffDays < 1 ||
-          diffDays %
-            (repeatData.intervalNum * gap[repeatData.intervalGap] === 0)
-        );
-      } else {
-        return date.getDate() === createdDate.getDate();
-      }
-    }
     if (currentView === 0) {
+      const filteredSchedules = schedules.filter((val) => {
+        const filtered = filter(val);
+        return filtered;
+      });
       setData({
-        schedules: schedules.filter((val) => filter(val)),
+        schedules: filteredSchedules,
         tasks: tasks,
       });
     } else if (currentView === 1) {
@@ -63,7 +50,21 @@ function App() {
       "data",
       JSON.stringify({ schedules: schedules, tasks: tasks })
     );
-    setData({ schedules: schedules, tasks: tasks });
+    // setData({ schedules: schedules, tasks: tasks });
+    if (currentView === 0) {
+      const filteredSchedules = schedules.filter((val) => {
+        const filtered = filter(val);
+        return filtered;
+      });
+      setData({
+        schedules: filteredSchedules,
+        tasks: tasks,
+      });
+    } else if (currentView === 1) {
+      setData({ schedules: schedules, tasks: [] });
+    } else if (currentView === 2) {
+      setData({ schedules: [], tasks: tasks });
+    }
   }, [schedules, tasks]);
 
   const date = new Date();
@@ -76,7 +77,23 @@ function App() {
     "Friday",
     "Saturday",
   ];
-
+  function filter(schedule) {
+    const repeatData = schedule.repeatData;
+    const createdDate = new Date(schedule.dateCreated);
+    const diffTime = Math.abs(date - createdDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const gap = [1, 7, 30, 365];
+    if (repeatData.selectedDays) {
+      return repeatData.selectedDays.includes(date.getDay());
+    } else if (repeatData) {
+      return (
+        diffDays < 1 ||
+        diffDays % (repeatData.intervalNum * gap[repeatData.intervalGap]) === 0
+      );
+    } else {
+      return date.getDate() === createdDate.getDate();
+    }
+  }
   function onSubmit(repeatData) {
     const data = [...wrapperRef.current.childNodes];
     let modData = {};
@@ -171,17 +188,22 @@ function App() {
         />
       );
     });
+  const header = [
+    <>
+      <span>Today's Schedule</span>
+      <br />
+      <span className="date-value">{`${
+        weekday[date.getDay()]
+      } ${date.getDate()}`}</span>
+    </>,
+    <span key={1}>All Schedules</span>,
+    <span key={2}>All Tasks</span>,
+  ];
   return (
     <>
       <Nav setCurrentView={setCurrentView} />
       <div className="header">
-        <div className="title-date">
-          <span>Today's Schedule</span>
-          <br />
-          <span className="date-value">{`${
-            weekday[date.getDay()]
-          } ${date.getDate()}`}</span>
-        </div>
+        <div className="title-date">{header[currentView]}</div>
         <button
           className="addbtn"
           onClick={() => {

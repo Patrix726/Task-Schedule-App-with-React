@@ -19,7 +19,15 @@ nav .groups {
   flex-direction: column;
   margin-bottom: auto;
 }
+.nav-img-icons {
+  width: 30px;
+  margin: 10px 0;
+  margin-right: 10px;
+}
 .navbtn {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
   font-size: 1.2rem;
   text-align: left;
 }
