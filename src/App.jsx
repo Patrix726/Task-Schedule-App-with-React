@@ -8,14 +8,11 @@ import Nav from "./Components/Nav";
 
 function App() {
   const [input, setInput] = useState(false);
-  const [schedules, setSchedules] = useState(
-    JSON.parse(localStorage.getItem("data")).schedules || []
-  );
-  const [tasks, setTasks] = useState(
-    JSON.parse(localStorage.getItem("data")).tasks || []
+  const [data, setData] = useState(
+    JSON.parse(localStorage.getItem("data")) || { schedules: [], tasks: [] }
   );
   const [currentView, setCurrentView] = useState(0);
-  const [data, setData] = useState({});
+  const [page, setPage] = useState({});
   const wrapperRef = useRef();
   useEffect(() => {
     function handleClickOutside(event) {
@@ -30,42 +27,38 @@ function App() {
   }, [wrapperRef]);
   useEffect(() => {
     if (currentView === 0) {
-      const filteredSchedules = schedules.filter((val) => {
+      const filteredSchedules = data.schedules.filter((val) => {
         const filtered = filter(val);
         return filtered;
       });
-      setData({
+      setPage({
         schedules: filteredSchedules,
-        tasks: tasks,
+        tasks: data.tasks,
       });
     } else if (currentView === 1) {
-      setData({ schedules: schedules, tasks: [] });
+      setPage({ schedules: data.schedules, tasks: [] });
     } else if (currentView === 2) {
-      setData({ schedules: [], tasks: tasks });
+      setPage({ schedules: [], tasks: data.tasks });
     }
   }, [currentView]);
 
   useEffect(() => {
-    localStorage.setItem(
-      "data",
-      JSON.stringify({ schedules: schedules, tasks: tasks })
-    );
-    // setData({ schedules: schedules, tasks: tasks });
+    localStorage.setItem("data", JSON.stringify(data));
     if (currentView === 0) {
-      const filteredSchedules = schedules.filter((val) => {
+      const filteredSchedules = data.schedules.filter((val) => {
         const filtered = filter(val);
         return filtered;
       });
-      setData({
+      setPage({
         schedules: filteredSchedules,
-        tasks: tasks,
+        tasks: data.tasks,
       });
     } else if (currentView === 1) {
-      setData({ schedules: schedules, tasks: [] });
+      setPage({ schedules: data.schedules, tasks: [] });
     } else if (currentView === 2) {
-      setData({ schedules: [], tasks: tasks });
+      setPage({ schedules: [], tasks: data.tasks });
     }
-  }, [schedules, tasks]);
+  }, [data]);
 
   const date = new Date();
   const weekday = [
@@ -97,11 +90,12 @@ function App() {
     }
   }
   function onSubmit(repeatData) {
-    const data = [...wrapperRef.current.childNodes];
+    const inputElements = [...wrapperRef.current.childNodes];
     let modData = {};
+
     modData.dateCreated = date;
     modData.repeatData = repeatData;
-    data.forEach((val) => {
+    inputElements.forEach((val) => {
       if (val.type !== "submit") {
         if (val.value === "") {
           modData.invalid = true;
@@ -111,26 +105,58 @@ function App() {
       }
     });
     if (modData.type === "0") {
-      if (
+      const alreadyExists = data?.schedules?.filter((item) => {
+        return item.title === modData.title;
+      });
+      const invalidTime =
         modData.hour === "00" &&
         modData.minutes === "00" &&
-        modData.seconds === "00"
-      ) {
+        modData.seconds === "00";
+      if (invalidTime || alreadyExists.length > 0) {
         modData.invalid = true;
-        data.forEach((item) => {
-          if (item.type === "number") {
+        if (invalidTime && alreadyExists) {
+          inputElements.forEach((item) => {
+            if (item.type === "number" || item.type === "text") {
+              item.classList.add("invalid");
+            }
+          });
+        } else if (invalidTime) {
+          inputElements.forEach((item) => {
+            if (item.type === "number") {
+              item.classList.add("invalid");
+            }
+          });
+        } else if (alreadyExists) {
+          inputElements.forEach((item) => {
+            if (item.type === "text") {
+              item.classList.add("invalid");
+            }
+          });
+        }
+      }
+
+      if (!modData.invalid) {
+        setData((prev) => {
+          return { ...prev, schedules: [...prev.schedules, modData] };
+        });
+        setInput(false);
+      }
+    } else if (modData.type === "1") {
+      const alreadyExists = data?.tasks?.filter((item) => {
+        return item.title === modData.title;
+      });
+      if (alreadyExists.length > 0) {
+        modData.invalid = true;
+        inputElements.forEach((item) => {
+          if (item.type === "text") {
             item.classList.add("invalid");
           }
         });
       }
-
       if (!modData.invalid) {
-        setSchedules((prev) => [...prev, modData]);
-        setInput(false);
-      }
-    } else if (modData.type === "1") {
-      if (!modData.invalid) {
-        setTasks((prev) => [...prev, modData]);
+        setData((prev) => {
+          return { ...prev, tasks: [...prev.tasks, modData] };
+        });
         setInput(false);
       }
     }
@@ -138,24 +164,24 @@ function App() {
   function removeItem(event) {
     const component = event.target.parentNode.parentNode;
     if (component.className === "schedule") {
-      setSchedules((prev) => {
-        const filtered = prev.filter(
+      setData((prev) => {
+        const filtered = prev.schedules.filter(
           (item, ind) => ind !== parseInt(component.id)
         );
-        return filtered;
+        return { ...prev, schedules: filtered };
       });
     } else {
-      setTasks((prev) => {
-        const filtered = prev.filter(
+      setData((prev) => {
+        const filtered = prev.tasks.filter(
           (item, ind) => ind !== parseInt(component.id)
         );
-        return filtered;
+        return { ...prev, tasks: filtered };
       });
     }
   }
   const schedulesData =
-    data.schedules &&
-    data.schedules.map((val, ind) => {
+    page.schedules &&
+    page.schedules.map((val, ind) => {
       const hour = parseInt(val.hour);
       const min = parseInt(val.minutes);
       let sec = parseInt(val.seconds);
@@ -176,8 +202,8 @@ function App() {
     });
 
   const tasksData =
-    data.tasks &&
-    data.tasks.map((val, ind) => {
+    page.tasks &&
+    page.tasks.map((val, ind) => {
       const [year, month, day] = val.date.split("-");
       const deadline = new Date(year, month, day);
       return (

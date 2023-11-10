@@ -4,6 +4,7 @@ import { useState } from "react";
 
 const Task = (props) => {
   const [expand, setExpand] = useState(false);
+
   return (
     <div className="task" id={props.id}>
       <div className="title-container">
