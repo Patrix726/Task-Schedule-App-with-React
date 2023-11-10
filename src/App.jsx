@@ -88,7 +88,9 @@ function App() {
     } else if (repeatData) {
       return (
         diffDays < 1 ||
-        diffDays % (repeatData.intervalNum * gap[repeatData.intervalGap]) === 0
+        diffDays %
+          (parseInt(repeatData.intervalNum) * gap[repeatData.intervalGap]) ===
+          0
       );
     } else {
       return date.getDate() === createdDate.getDate();
