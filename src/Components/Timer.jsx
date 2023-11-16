@@ -4,7 +4,7 @@ import Countdown from "react-countdown";
 
 const Timer = (props) => {
   const countdownRef = useRef();
-  const [currentTimeIndex, setCurrentTimeIndex] = useState(0);
+  const [remainingTime, setRemainingTime] = useState(Date.now() + props.timer);
   function toggleOnClick() {
     if (countdownRef.current.isStopped() || countdownRef.current.isPaused()) {
       countdownRef.current.start();
@@ -13,7 +13,8 @@ const Timer = (props) => {
     }
   }
   function resetTime() {
-    setCurrentTimeIndex((prev) => prev + 1);
+    countdownRef.current.pause();
+    setRemainingTime(Date.now() + props.timer);
   }
   const Render = ({ formatted, completed }) => {
     if (completed) {
@@ -41,8 +42,7 @@ const Timer = (props) => {
   return (
     <>
       <Countdown
-        date={Date.now() + props.timer}
-        key={currentTimeIndex}
+        date={remainingTime}
         renderer={rendered}
         ref={countdownRef}
         autoStart={false}

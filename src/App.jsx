@@ -105,16 +105,16 @@ function App() {
       }
     });
     if (modData.type === "0") {
-      const alreadyExists = data?.schedules?.filter((item) => {
+      const duplicateTitle = data?.schedules?.filter((item) => {
         return item.title === modData.title;
       });
       const invalidTime =
         modData.hour === "00" &&
         modData.minutes === "00" &&
         modData.seconds === "00";
-      if (invalidTime || alreadyExists.length > 0) {
+      if (invalidTime || duplicateTitle.length > 0) {
         modData.invalid = true;
-        if (invalidTime && alreadyExists) {
+        if (invalidTime && duplicateTitle) {
           inputElements.forEach((item) => {
             if (item.type === "number" || item.type === "text") {
               item.classList.add("invalid");
@@ -126,7 +126,7 @@ function App() {
               item.classList.add("invalid");
             }
           });
-        } else if (alreadyExists) {
+        } else if (duplicateTitle) {
           inputElements.forEach((item) => {
             if (item.type === "text") {
               item.classList.add("invalid");
@@ -142,10 +142,10 @@ function App() {
         setInput(false);
       }
     } else if (modData.type === "1") {
-      const alreadyExists = data?.tasks?.filter((item) => {
+      const duplicateTitle = data?.tasks?.filter((item) => {
         return item.title === modData.title;
       });
-      if (alreadyExists.length > 0) {
+      if (duplicateTitle.length > 0) {
         modData.invalid = true;
         inputElements.forEach((item) => {
           if (item.type === "text") {
@@ -232,77 +232,80 @@ function App() {
       <Nav setCurrentView={setCurrentView} />
       <div className="header">
         <div className="title-date">{header[currentView]}</div>
-        <button
-          className="addbtn"
-          onClick={() => {
-            setInput(true);
-          }}
-        >
-          <svg
-            width="101"
-            height="104"
-            viewBox="0 0 101 104"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+        <div className="title-btns">
+          <button className="playbtn">Play</button>
+          <button
+            className="addbtn"
+            onClick={() => {
+              setInput(true);
+            }}
           >
-            <g filter="url(#filter0_d_2_283)">
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M27.4983 22.1311C39.0023 9.86006 54.4251 7.3769 64.2787 16.4726C74.1324 25.5682 74.6559 50.6718 64.2787 61.7408C53.9015 72.8099 29.984 69.2586 21.8397 61.7408C13.6954 54.223 15.9942 34.4021 27.4983 22.1311Z"
-                fill="#F8D57E"
-              />
-              <path
-                d="M44.4738 33.4482V47.5945"
-                stroke="white"
-                strokeWidth="2.9"
-                strokeLinecap="round"
-              />
-              <path
-                d="M37.4006 40.5213H51.547"
-                stroke="white"
-                strokeWidth="2.9"
-                strokeLinecap="round"
-              />
-            </g>
-            <defs>
-              <filter
-                id="filter0_d_2_283"
-                x="0"
-                y="0"
-                width="100.867"
-                height="103.773"
-                filterUnits="userSpaceOnUse"
-                colorInterpolationFilters="sRGB"
-              >
-                <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                <feColorMatrix
-                  in="SourceAlpha"
-                  type="matrix"
-                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                  result="hardAlpha"
+            <svg
+              width="101"
+              height="104"
+              viewBox="0 0 101 104"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g filter="url(#filter0_d_2_283)">
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M27.4983 22.1311C39.0023 9.86006 54.4251 7.3769 64.2787 16.4726C74.1324 25.5682 74.6559 50.6718 64.2787 61.7408C53.9015 72.8099 29.984 69.2586 21.8397 61.7408C13.6954 54.223 15.9942 34.4021 27.4983 22.1311Z"
+                  fill="#F8D57E"
                 />
-                <feOffset dx="6" dy="12" />
-                <feGaussianBlur stdDeviation="11.5" />
-                <feColorMatrix
-                  type="matrix"
-                  values="0 0 0 0 0.972549 0 0 0 0 0.835294 0 0 0 0 0.494118 0 0 0 0.244619 0"
+                <path
+                  d="M44.4738 33.4482V47.5945"
+                  stroke="white"
+                  strokeWidth="2.9"
+                  strokeLinecap="round"
                 />
-                <feBlend
-                  mode="normal"
-                  in2="BackgroundImageFix"
-                  result="effect1_dropShadow_2_283"
+                <path
+                  d="M37.4006 40.5213H51.547"
+                  stroke="white"
+                  strokeWidth="2.9"
+                  strokeLinecap="round"
                 />
-                <feBlend
-                  mode="normal"
-                  in="SourceGraphic"
-                  in2="effect1_dropShadow_2_283"
-                  result="shape"
-                />
-              </filter>
-            </defs>
-          </svg>
-        </button>
+              </g>
+              <defs>
+                <filter
+                  id="filter0_d_2_283"
+                  x="0"
+                  y="0"
+                  width="100.867"
+                  height="103.773"
+                  filterUnits="userSpaceOnUse"
+                  colorInterpolationFilters="sRGB"
+                >
+                  <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                  <feColorMatrix
+                    in="SourceAlpha"
+                    type="matrix"
+                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                    result="hardAlpha"
+                  />
+                  <feOffset dx="6" dy="12" />
+                  <feGaussianBlur stdDeviation="11.5" />
+                  <feColorMatrix
+                    type="matrix"
+                    values="0 0 0 0 0.972549 0 0 0 0 0.835294 0 0 0 0 0.494118 0 0 0 0.244619 0"
+                  />
+                  <feBlend
+                    mode="normal"
+                    in2="BackgroundImageFix"
+                    result="effect1_dropShadow_2_283"
+                  />
+                  <feBlend
+                    mode="normal"
+                    in="SourceGraphic"
+                    in2="effect1_dropShadow_2_283"
+                    result="shape"
+                  />
+                </filter>
+              </defs>
+            </svg>
+          </button>
+        </div>
       </div>
       <div className="schedules">{schedulesData}</div>
       <div className="tasks">{tasksData}</div>
