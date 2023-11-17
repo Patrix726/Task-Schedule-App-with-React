@@ -4,6 +4,20 @@ import Countdown from "react-countdown";
 
 const Timer = (props) => {
   const countdownRef = useRef();
+  //TODO: Add a sound whenever timer is completed or a notification
+  if (props.playing) {
+    countdownRef.current.start();
+  } else if (!props.playing) {
+    if (
+      !countdownRef.current?.isStopped() &&
+      !countdownRef.current?.isPaused()
+    ) {
+      if (!props.playAll) {
+        countdownRef.current?.pause();
+      }
+    }
+  }
+
   const [remainingTime, setRemainingTime] = useState(Date.now() + props.timer);
   function toggleOnClick() {
     if (countdownRef.current.isStopped() || countdownRef.current.isPaused()) {
@@ -46,6 +60,7 @@ const Timer = (props) => {
         renderer={rendered}
         ref={countdownRef}
         autoStart={false}
+        onComplete={props.setPlaying}
       />
     </>
   );

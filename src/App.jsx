@@ -13,7 +13,10 @@ function App() {
   );
   const [currentView, setCurrentView] = useState(0);
   const [page, setPage] = useState({});
+  const [playAll, setPlayAll] = useState(false);
+  const [playing, setPlaying] = useState(0);
   const wrapperRef = useRef();
+  console.log(playing, playAll);
   useEffect(() => {
     function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -59,7 +62,8 @@ function App() {
       setPage({ schedules: [], tasks: data.tasks });
     }
   }, [data]);
-
+  //TODO: Create a function that plays all schedules in order
+  //TODO: implement a way to create new groups of schedules and tasks
   const date = new Date();
   const weekday = [
     "Sunday",
@@ -197,6 +201,19 @@ function App() {
           deadline={Date.now() + val.time}
           type={val.type}
           removeItem={removeItem}
+          playAll={playAll}
+          playing={playAll && ind === playing}
+          // setPlaying={setPlaying}
+          setPlaying={() =>
+            setPlaying((prev) => {
+              if (page.schedules.length === prev + 1) {
+                setPlayAll(false);
+                return 0;
+              } else {
+                return prev + 1;
+              }
+            })
+          }
         />
       );
     });
@@ -233,7 +250,9 @@ function App() {
       <div className="header">
         <div className="title-date">{header[currentView]}</div>
         <div className="title-btns">
-          <button className="playbtn">Play</button>
+          <button className="playbtn" onClick={() => setPlayAll(!playAll)}>
+            Play
+          </button>
           <button
             className="addbtn"
             onClick={() => {
