@@ -203,14 +203,19 @@ function App() {
           removeItem={removeItem}
           playAll={playAll}
           playing={playAll && ind === playing}
-          // setPlaying={setPlaying}
-          setPlaying={() =>
+          currentPlaying={playing}
+          setPlaying={setPlaying}
+          incrementPlaying={(id) =>
             setPlaying((prev) => {
-              if (page.schedules.length === prev + 1) {
-                setPlayAll(false);
-                return 0;
+              if (playAll && prev === id) {
+                const next = prev + 1;
+                if (page.schedules.length === next) {
+                  console.log("been here", prev);
+                  setPlayAll(false);
+                }
+                return next;
               } else {
-                return prev + 1;
+                return prev;
               }
             })
           }
@@ -250,8 +255,15 @@ function App() {
       <div className="header">
         <div className="title-date">{header[currentView]}</div>
         <div className="title-btns">
-          <button className="playbtn" onClick={() => setPlayAll(!playAll)}>
-            Play
+          <button
+            className="playbtn"
+            onClick={() => {
+              if (playing < page.schedules.length) {
+                setPlayAll(!playAll);
+              }
+            }}
+          >
+            {playAll ? "Pause" : "Play"}
           </button>
           <button
             className="addbtn"
@@ -323,6 +335,7 @@ function App() {
                 </filter>
               </defs>
             </svg>
+            {/* <img src={addTask} alt="Add Task" className="header-btn" /> */}
           </button>
         </div>
       </div>

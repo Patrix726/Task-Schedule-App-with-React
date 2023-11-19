@@ -29,6 +29,10 @@ const Timer = (props) => {
   function resetTime() {
     countdownRef.current.pause();
     setRemainingTime(Date.now() + props.timer);
+    console.log(props.currentPlaying);
+    if (props.currentPlaying > props.id) {
+      props.setPlaying(props.id);
+    }
   }
   const Render = ({ formatted, completed }) => {
     if (completed) {
@@ -60,7 +64,7 @@ const Timer = (props) => {
         renderer={rendered}
         ref={countdownRef}
         autoStart={false}
-        onComplete={props.setPlaying}
+        onComplete={() => props.incrementPlaying(props.id)}
       />
     </>
   );

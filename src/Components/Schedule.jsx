@@ -16,7 +16,10 @@ const Schedule = (props) => {
           deadline={props.deadline}
           playAll={props.playAll}
           playing={props.playing}
+          currentPlaying={props.currentPlaying}
           setPlaying={props.setPlaying}
+          incrementPlaying={props.incrementPlaying}
+          id={props.id}
         />
       </div>
       {expand && (
