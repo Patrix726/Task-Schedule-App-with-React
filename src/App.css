@@ -39,6 +39,7 @@ body {
 
 .group-add-navbtn {
   justify-content: center;
+  align-items: center;
   font-size: 2rem;
   background-color: #f4b860;
   padding: 4px;
@@ -47,6 +48,16 @@ body {
 }
 .group-add-navbtn#expanded {
   font-size: 1.2rem;
+}
+.group-name-input {
+  background-color: red;
+  position: absolute;
+  width: 250px;
+  height: 50px;
+  bottom: 100px;
+  display: flex;
+  justify-content: center;
+  margin: auto;
 }
 #hamburger {
   margin-bottom: 3rem;

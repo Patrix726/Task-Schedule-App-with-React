@@ -9,14 +9,17 @@ import Nav from "./Components/Nav";
 function App() {
   const [input, setInput] = useState(false);
   const [data, setData] = useState(
-    JSON.parse(localStorage.getItem("data")) || { schedules: [], tasks: [] }
+    JSON.parse(localStorage.getItem("data")) || {
+      schedules: [],
+      tasks: [],
+      groups: [],
+    }
   );
   const [currentView, setCurrentView] = useState(0);
   const [page, setPage] = useState({});
   const [playAll, setPlayAll] = useState(false);
   const [playing, setPlaying] = useState(0);
   const wrapperRef = useRef();
-  console.log(playing, playAll);
   useEffect(() => {
     function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -29,29 +32,34 @@ function App() {
     };
   }, [wrapperRef]);
   useEffect(() => {
-    if (currentView === 0) {
-      const filteredSchedules = data.schedules.filter((val) => {
-        const filtered = filter(val);
-        return filtered;
-      });
-      setPage({
-        schedules: filteredSchedules,
-        tasks: data.tasks,
-      });
-    } else if (currentView === 1) {
-      setPage({ schedules: data.schedules, tasks: [] });
-    } else if (currentView === 2) {
-      setPage({ schedules: [], tasks: data.tasks });
-    }
-  }, [currentView]);
-
-  useEffect(() => {
     localStorage.setItem("data", JSON.stringify(data));
+    function filter(schedule) {
+      const date = new Date();
+      if (currentView === 0) {
+        const repeatData = schedule.repeatData;
+        const createdDate = new Date(schedule.dateCreated);
+        const diffTime = Math.abs(date - createdDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const gap = [1, 7, 30, 365];
+        if (repeatData.selectedDays) {
+          return repeatData.selectedDays.includes(date.getDay());
+        } else if (repeatData) {
+          return (
+            diffDays < 1 ||
+            diffDays %
+              (parseInt(repeatData.intervalNum) *
+                gap[repeatData.intervalGap]) ===
+              0
+          );
+        } else {
+          return date.getDate() === createdDate.getDate();
+        }
+      } else {
+        return schedule.group === currentView;
+      }
+    }
     if (currentView === 0) {
-      const filteredSchedules = data.schedules.filter((val) => {
-        const filtered = filter(val);
-        return filtered;
-      });
+      const filteredSchedules = data.schedules.filter((val) => filter(val));
       setPage({
         schedules: filteredSchedules,
         tasks: data.tasks,
@@ -60,9 +68,16 @@ function App() {
       setPage({ schedules: data.schedules, tasks: [] });
     } else if (currentView === 2) {
       setPage({ schedules: [], tasks: data.tasks });
+    } else {
+      const filteredSchedules = data.schedules.filter((val) => filter(val));
+      const filteredTasks = data.tasks.filter((val) => filter(val));
+      setPage({
+        schedules: filteredSchedules,
+        tasks: filteredTasks,
+      });
     }
-  }, [data]);
-  //TODO: Create a function that plays all schedules in order
+  }, [currentView, data]);
+
   //TODO: implement a way to create new groups of schedules and tasks
   const date = new Date();
   const weekday = [
@@ -74,25 +89,7 @@ function App() {
     "Friday",
     "Saturday",
   ];
-  function filter(schedule) {
-    const repeatData = schedule.repeatData;
-    const createdDate = new Date(schedule.dateCreated);
-    const diffTime = Math.abs(date - createdDate);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    const gap = [1, 7, 30, 365];
-    if (repeatData.selectedDays) {
-      return repeatData.selectedDays.includes(date.getDay());
-    } else if (repeatData) {
-      return (
-        diffDays < 1 ||
-        diffDays %
-          (parseInt(repeatData.intervalNum) * gap[repeatData.intervalGap]) ===
-          0
-      );
-    } else {
-      return date.getDate() === createdDate.getDate();
-    }
-  }
+
   function onSubmit(repeatData) {
     const inputElements = [...wrapperRef.current.childNodes];
     let modData = {};
@@ -112,6 +109,7 @@ function App() {
       const duplicateTitle = data?.schedules?.filter((item) => {
         return item.title === modData.title;
       });
+      modData.group = currentView;
       const invalidTime =
         modData.hour === "00" &&
         modData.minutes === "00" &&
@@ -149,6 +147,7 @@ function App() {
       const duplicateTitle = data?.tasks?.filter((item) => {
         return item.title === modData.title;
       });
+      modData.group = currentView;
       if (duplicateTitle.length > 0) {
         modData.invalid = true;
         inputElements.forEach((item) => {
@@ -210,7 +209,6 @@ function App() {
               if (playAll && prev === id) {
                 const next = prev + 1;
                 if (page.schedules.length === next) {
-                  console.log("been here", prev);
                   setPlayAll(false);
                 }
                 return next;
