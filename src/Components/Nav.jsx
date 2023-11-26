@@ -147,7 +147,19 @@ const Nav = ({ setCurrentView }) => {
           {expand ? "Add new group" : "+"}
         </button>
       </nav>
-      {addGroup && <div className="group-name-input" ref={addGroupRef}></div>}
+      {addGroup && (
+        <div className="group-name-input" ref={addGroupRef}>
+          <input
+            type="text"
+            name="title"
+            id="group-text-input"
+            required
+            placeholder="Enter Group Name"
+          />
+          {/* <input type="image" name="icon" id="icon-input" /> */}
+          <button>Add</button>
+        </div>
+      )}
     </>
   );
 };
