@@ -20,6 +20,7 @@ function App() {
   const [playAll, setPlayAll] = useState(false);
   const [playing, setPlaying] = useState(0);
   const wrapperRef = useRef();
+  console.log(data);
   useEffect(() => {
     function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -249,7 +250,11 @@ function App() {
   ];
   return (
     <>
-      <Nav setCurrentView={setCurrentView} />
+      <Nav
+        setCurrentView={setCurrentView}
+        setData={setData}
+        groups={data.groups}
+      />
       <div className="header">
         <div className="title-date">{header[currentView]}</div>
         <div className="title-btns">

@@ -6,8 +6,9 @@ import todo from "../assets/todo.png";
 import clock from "../assets/clock.png";
 import closeSvg from "../assets/close.svg";
 import expandSvg from "../assets/expand.svg";
+import AddGroup from "./AddGroup";
 
-const Nav = ({ setCurrentView }) => {
+const Nav = ({ setCurrentView, setData, groups }) => {
   const [expand, setExpand] = useState(getValue());
   const [addGroup, setAddGroup] = useState(false);
   const addGroupRef = useRef();
@@ -22,13 +23,42 @@ const Nav = ({ setCurrentView }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [addGroupRef]);
+
+  useEffect(() => {
+    localStorage.setItem("nav", JSON.stringify(expand));
+  }, [expand]);
+
+  function addNewGroup() {
+    const children = [...addGroupRef.current.childNodes];
+    const newGroup = {};
+    newGroup.title = children[0].value;
+    setData((prev) => {
+      return { ...prev, groups: [...prev.groups, newGroup] };
+    });
+    setAddGroup(false);
+  }
+
   function getValue() {
     const val = JSON.parse(localStorage.getItem("nav"));
     return val === null ? true : val;
   }
-  useEffect(() => {
-    localStorage.setItem("nav", JSON.stringify(expand));
-  }, [expand]);
+  const allGroups =
+    groups &&
+    groups.map((group, ind) => {
+      return (
+        <>
+          <button
+            className={expand ? "navbtn expand" : "navbtn"}
+            onClick={() => {
+              setCurrentView(3 + ind);
+            }}
+          >
+            {/* <img src={clock} alt="clock icon" className="nav-img-icons" /> */}
+            {expand && <span>{group.title}</span>}
+          </button>
+        </>
+      );
+    });
   return (
     <>
       <nav className={expand ? "nav open" : "nav"}>
@@ -69,6 +99,7 @@ const Nav = ({ setCurrentView }) => {
             <img src={todo} alt="todo icon" className="nav-img-icons" />
             {expand && <span>All Tasks</span>}
           </button>
+          {allGroups}
         </div>
         <button
           className="group-add-navbtn"
@@ -80,19 +111,7 @@ const Nav = ({ setCurrentView }) => {
           {expand ? "Add new group" : "+"}
         </button>
       </nav>
-      {addGroup && (
-        <div className="group-name-input" ref={addGroupRef}>
-          <input
-            type="text"
-            name="title"
-            id="group-text-input"
-            required
-            placeholder="Enter Group Name"
-          />
-          {/* <input type="image" name="icon" id="icon-input" /> */}
-          <button>Add</button>
-        </div>
-      )}
+      {addGroup && <AddGroup addGroupRef={addGroupRef} onClick={addNewGroup} />}
     </>
   );
 };

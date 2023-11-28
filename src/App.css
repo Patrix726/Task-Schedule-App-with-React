@@ -81,7 +81,7 @@ body {
 }
 .group-name-input button:hover {
   background-color: white;
-  border-color: black;
+  border: 0;
 }
 #hamburger {
   margin-bottom: 3rem;
