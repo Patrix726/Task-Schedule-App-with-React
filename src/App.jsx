@@ -5,6 +5,8 @@ import Schedule from "./Components/Schedule";
 import AddSchedule from "./Components/AddSchedule";
 import Task from "./Components/Task";
 import Nav from "./Components/Nav";
+import play from "./assets/play.svg";
+import pause from "./assets/pause.svg";
 
 function App() {
   const [input, setInput] = useState(false);
@@ -20,7 +22,6 @@ function App() {
   const [playAll, setPlayAll] = useState(false);
   const [playing, setPlaying] = useState(0);
   const wrapperRef = useRef();
-  console.log(data);
   useEffect(() => {
     function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -259,16 +260,6 @@ function App() {
         <div className="title-date">{header[currentView]}</div>
         <div className="title-btns">
           <button
-            className="playbtn"
-            onClick={() => {
-              if (playing < page.schedules.length) {
-                setPlayAll(!playAll);
-              }
-            }}
-          >
-            {playAll ? "Pause" : "Play"}
-          </button>
-          <button
             className="addbtn"
             onClick={() => {
               setInput(true);
@@ -342,8 +333,25 @@ function App() {
           </button>
         </div>
       </div>
-      <div className="schedules">{schedulesData}</div>
-      <div className="tasks">{tasksData}</div>
+      <main>
+        <div className="main-header">
+          {page.schedules?.length > 0 && (
+            <button
+              className="playbtn"
+              onClick={() => {
+                if (playing < page.schedules.length) {
+                  setPlayAll(!playAll);
+                }
+              }}
+            >
+              <img src={playAll ? pause : play} alt="play btn" />
+            </button>
+          )}
+        </div>
+        <div className="schedules">{schedulesData}</div>
+        <div className="tasks">{tasksData}</div>
+      </main>
+
       {input && <AddSchedule onSubmit={onSubmit} wrapperRef={wrapperRef} />}
     </>
   );

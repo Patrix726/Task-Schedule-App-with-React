@@ -46,17 +46,16 @@ const Nav = ({ setCurrentView, setData, groups }) => {
     groups &&
     groups.map((group, ind) => {
       return (
-        <>
-          <button
-            className={expand ? "navbtn expand" : "navbtn"}
-            onClick={() => {
-              setCurrentView(3 + ind);
-            }}
-          >
-            {/* <img src={clock} alt="clock icon" className="nav-img-icons" /> */}
-            {expand && <span>{group.title}</span>}
-          </button>
-        </>
+        <button
+          className={expand ? "navbtn expand" : "navbtn"}
+          onClick={() => {
+            setCurrentView(3 + ind);
+          }}
+          key={ind}
+        >
+          {/* <img src={clock} alt="clock icon" className="nav-img-icons" /> */}
+          {expand && <span>{group.title}</span>}
+        </button>
       );
     });
   return (
@@ -71,14 +70,18 @@ const Nav = ({ setCurrentView, setData, groups }) => {
         >
           <img src={expand ? expandSvg : closeSvg} alt="hamburger" />
         </button>
-        <div className="groups">
+        <div className="categories">
           <button
             className={expand ? "navbtn expand" : "navbtn"}
             onClick={() => {
               setCurrentView(0);
             }}
           >
-            <img src={clock} alt="clock icon" className="nav-img-icons" />
+            <img
+              src={clock}
+              alt="clock icon"
+              className={expand ? "nav-img-icons expand" : "nav-img-icons"}
+            />
             {expand && <span>Today's Schedule</span>}
           </button>
           <button
@@ -87,7 +90,11 @@ const Nav = ({ setCurrentView, setData, groups }) => {
               setCurrentView(1);
             }}
           >
-            <img src={schedule} alt="schedule icon" className="nav-img-icons" />
+            <img
+              src={schedule}
+              alt="schedule icon"
+              className={expand ? "nav-img-icons expand" : "nav-img-icons"}
+            />
             {expand && <span>All Schedules</span>}
           </button>
           <button
@@ -96,14 +103,17 @@ const Nav = ({ setCurrentView, setData, groups }) => {
               setCurrentView(2);
             }}
           >
-            <img src={todo} alt="todo icon" className="nav-img-icons" />
+            <img
+              src={todo}
+              alt="todo icon"
+              className={expand ? "nav-img-icons expand" : "nav-img-icons"}
+            />
             {expand && <span>All Tasks</span>}
           </button>
-          {allGroups}
         </div>
+        <div className="groups">{allGroups}</div>
         <button
-          className="group-add-navbtn"
-          id={expand ? "expanded" : "group-add-btn"}
+          className={expand ? "group-add-navbtn expanded" : "group-add-navbtn"}
           onClick={() => {
             setAddGroup(true);
           }}
