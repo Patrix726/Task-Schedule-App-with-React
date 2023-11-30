@@ -62,7 +62,7 @@ const Nav = ({ setCurrentView, setData, groups }) => {
     <>
       <nav className={expand ? "nav open" : "nav"}>
         <button
-          className="navbtn expand"
+          className="navbtn"
           id="hamburger"
           onClick={() => {
             setExpand(!expand);
@@ -111,7 +111,7 @@ const Nav = ({ setCurrentView, setData, groups }) => {
             {expand && <span>All Tasks</span>}
           </button>
         </div>
-        <div className="groups">{allGroups}</div>
+        <div className="categories groups">{allGroups}</div>
         <button
           className={expand ? "group-add-navbtn expanded" : "group-add-navbtn"}
           onClick={() => {

@@ -18,14 +18,19 @@ body {
   transition: all 0.2s ease-in;
 }
 .nav.open {
+  justify-content: flex-start;
   width: auto;
 }
 .nav .categories {
   display: flex;
   flex-direction: column;
+  align-self: flex-start;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
   border-bottom: 2px solid black;
 }
 .nav .groups {
+  border: 0;
   margin-bottom: auto;
 }
 .nav-img-icons {
@@ -37,12 +42,11 @@ body {
 }
 .navbtn {
   display: flex;
-  /* justify-content: center; */
   align-items: center;
   font-size: 1.2rem;
   text-align: left;
+  transition: all 0.5s;
 }
-
 .group-add-navbtn {
   font-size: 1.7rem;
   background-color: #f4b860;
@@ -91,6 +95,7 @@ body {
 #hamburger {
   margin-bottom: 3rem;
   width: 2.2rem;
+  align-self: flex-start;
 }
 .hb {
   width: 100%;
