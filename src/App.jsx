@@ -248,6 +248,11 @@ function App() {
     </>,
     <span key={1}>All Schedules</span>,
     <span key={2}>All Tasks</span>,
+    <>
+      <span>Custom Groups</span>
+      <br />
+      <span>{data.groups[currentView - 3]?.title}</span>
+    </>,
   ];
   return (
     <>
@@ -257,7 +262,9 @@ function App() {
         groups={data.groups}
       />
       <div className="header">
-        <div className="title-date">{header[currentView]}</div>
+        <div className="title-date">
+          {currentView < 3 ? header[currentView] : header[3]}
+        </div>
         <div className="title-btns">
           <button
             className="addbtn"
