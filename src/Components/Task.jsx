@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import { useState } from "react";
+import trashCan from "../assets/trash - RED.ico";
 
 const Task = (props) => {
   const [expand, setExpand] = useState(false);
@@ -17,7 +18,7 @@ const Task = (props) => {
         <div className="detail">
           <span>{props.detail}</span>
           <button className="removebtn" onClick={props.removeItem}>
-            Remove
+            <img src={trashCan} alt="Remove" className="trash-can" />
           </button>
         </div>
       )}

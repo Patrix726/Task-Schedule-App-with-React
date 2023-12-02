@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import Timer from "./Timer";
+import trashCan from "../assets/trash - RED.ico";
 
 const Schedule = (props) => {
   const [expand, setExpand] = useState(false);
@@ -26,7 +27,7 @@ const Schedule = (props) => {
         <div className="detail">
           <span>{props.detail}</span>
           <button className="removebtn" onClick={props.removeItem}>
-            Remove
+            <img src={trashCan} alt="Remove" className="trash-can" />
           </button>
         </div>
       )}

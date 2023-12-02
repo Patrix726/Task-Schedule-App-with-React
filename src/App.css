@@ -194,7 +194,9 @@ body {
 }
 .detail {
   background-color: #f6f7fb;
-  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
 }
 .inputSchedule {
   position: absolute;
@@ -295,6 +297,10 @@ button#submit-btn {
 }
 #repeat-submitbtn {
   background-color: teal;
+}
+.trash-can {
+  height: 40px;
+  margin: 0;
 }
 @keyframes slide {
   0% {
