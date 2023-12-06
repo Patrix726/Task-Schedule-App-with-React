@@ -90,6 +90,8 @@ body {
   width: 550px;
   height: 100px;
   border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.225) 10px 10px 50px 100vw;
+  animation: open 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 #group-text-input {
   padding-left: 10px;
@@ -224,12 +226,15 @@ body {
   left: 0;
   right: 0;
   width: 55vw;
+  height: 75px;
   padding: 15px;
   bottom: 10px;
   border-radius: 8px;
   background-color: #f8d57e;
   margin: 0 auto;
   animation: slide 0.1s ease-in;
+  animation: slide-open 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: rgba(0, 0, 0, 0.225) 10px 10px 50px 100vw;
   transition: all 0.5s;
 }
 .inputSchedule * {
@@ -349,5 +354,26 @@ button#submit-btn {
 
   100% {
     opacity: 1;
+  }
+}
+@keyframes open {
+  0% {
+    height: 0;
+    box-shadow: rgba(0, 0, 0, 0) 10px 10px 50px 100vw;
+  }
+  100% {
+    height: 100px;
+    box-shadow: rgba(0, 0, 0, 0.225) 10px 10px 50px 100vw;
+  }
+}
+
+@keyframes slide-open {
+  0% {
+    height: 0;
+    box-shadow: rgba(0, 0, 0, 0) 10px 10px 50px 100vw;
+  }
+  100% {
+    height: 75px;
+    box-shadow: rgba(0, 0, 0, 0.225) 10px 10px 50px 100vw;
   }
 }
