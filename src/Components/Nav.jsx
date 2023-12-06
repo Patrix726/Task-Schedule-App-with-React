@@ -70,7 +70,7 @@ const Nav = ({ setCurrentView, setData, groups }) => {
         >
           <img src={expand ? expandSvg : closeSvg} alt="hamburger" />
         </button>
-        <div className="categories">
+        <div className={expand ? "categories expand" : "categories"}>
           <button
             className={expand ? "navbtn expand" : "navbtn"}
             onClick={() => {
@@ -82,7 +82,7 @@ const Nav = ({ setCurrentView, setData, groups }) => {
               alt="clock icon"
               className={expand ? "nav-img-icons expand" : "nav-img-icons"}
             />
-            {expand && <span>Today's Schedule</span>}
+            {expand && <span>Today</span>}
           </button>
           <button
             className={expand ? "navbtn expand" : "navbtn"}
@@ -95,7 +95,7 @@ const Nav = ({ setCurrentView, setData, groups }) => {
               alt="schedule icon"
               className={expand ? "nav-img-icons expand" : "nav-img-icons"}
             />
-            {expand && <span>All Schedules</span>}
+            {expand && <span>Schedules</span>}
           </button>
           <button
             className={expand ? "navbtn expand" : "navbtn"}
@@ -108,7 +108,7 @@ const Nav = ({ setCurrentView, setData, groups }) => {
               alt="todo icon"
               className={expand ? "nav-img-icons expand" : "nav-img-icons"}
             />
-            {expand && <span>All Tasks</span>}
+            {expand && <span>Tasks</span>}
           </button>
         </div>
         <div className="categories groups">{allGroups}</div>
@@ -118,7 +118,7 @@ const Nav = ({ setCurrentView, setData, groups }) => {
             setAddGroup(true);
           }}
         >
-          {expand ? "Add new group" : "+"}
+          <span>{expand ? "Add new group" : "+"}</span>
         </button>
       </nav>
       {addGroup && <AddGroup addGroupRef={addGroupRef} onClick={addNewGroup} />}
