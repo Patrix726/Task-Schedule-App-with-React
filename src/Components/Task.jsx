@@ -1,15 +1,30 @@
 /* eslint-disable react/prop-types */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import trashCan from "../assets/trash - RED.ico";
 
 const Task = (props) => {
   const [expand, setExpand] = useState(false);
-
+  const [check, setCheck] = useState(
+    JSON.parse(localStorage.getItem(props.title)) || false
+  );
+  useEffect(() => {
+    localStorage.setItem(props.title, JSON.stringify(check));
+  }, [check, props.title]);
   return (
-    <div className="task" id={props.id}>
+    <div className={check ? "task checked" : "task"} id={props.id}>
       <div className="title-container">
-        <span className="title" onClick={() => setExpand((prev) => !prev)}>
+        <input
+          type="checkbox"
+          name="todo"
+          id="todo-check"
+          onChange={() => setCheck((prev) => !prev)}
+          checked={check}
+        />
+        <span
+          className={check ? "title checked" : "title"}
+          onClick={() => setExpand((prev) => !prev)}
+        >
           {props.title}
         </span>
         <span className="deadline">{props.deadline.toString()}</span>
