@@ -9,6 +9,7 @@ body {
   justify-content: flex-start;
   align-items: center;
   position: fixed;
+  font-family: "Courier New", Courier, monospace;
   left: 0;
   top: 0;
   bottom: 0;
@@ -16,16 +17,15 @@ body {
   margin: auto 0;
   background-color: rgb(47, 70, 79);
   color: white;
-  width: 70px;
+  width: 60px;
   height: 98vh;
-  padding: 30px 15px;
+  padding: 30px 10px;
   border-radius: 0 10px 10px 0;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .nav.open {
   justify-content: flex-start;
-  width: 200px;
-  flex-wrap: nowrap;
+  width: 175px;
   overflow: hidden;
 }
 .nav.open span {
@@ -98,6 +98,34 @@ body {
   box-shadow: rgba(0, 0, 0, 0.225) 10px 10px 50px 100vw;
   animation: open 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+.color-picker {
+  width: 30px;
+  height: 30px;
+  border: 2px solid white;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.color-palette {
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  right: 430px;
+  top: 75px;
+  width: 180px;
+  height: 100px;
+  background-color: rgba(152, 180, 205, 0.95);
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  animation: fadein 0.3s ease;
+}
+.color-palette .color {
+  width: 30px;
+  height: 30px;
+  margin: 0 7px;
+  cursor: pointer;
+  border-radius: 50%;
+}
 #group-text-input {
   padding-left: 10px;
   height: 50%;
@@ -148,7 +176,7 @@ body {
 }
 .title-date {
   color: #000;
-  font-family: "Inter";
+  font-family: "Inter", monospace;
   font-size: 2.5rem;
   font-style: normal;
   font-weight: 400;
@@ -199,7 +227,7 @@ body {
   border-radius: 20px;
   background: #457676;
   color: white;
-  transition: all 0.5s;
+  transition: all 0.3s;
   align-items: center;
   margin: 10px 0;
 }

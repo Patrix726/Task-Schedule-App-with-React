@@ -1,8 +1,17 @@
+import { useState } from "react";
+
 // eslint-disable-next-line react/prop-types
 const AddGroup = ({ addGroupRef, onClick }) => {
+  const [pickColor, setPickColor] = useState(false);
+  const [color, setColor] = useState("red");
+  const colors = ["red", "blue", "green", "orange", "yellow", "violet", "grey"];
   return (
-    //TODO: create a color selector as input
     <div className="group-name-input" ref={addGroupRef}>
+      <div
+        className="color-picker"
+        style={{ backgroundColor: color }}
+        onClick={() => setPickColor((prev) => !prev)}
+      ></div>
       <input
         type="text"
         name="title"
@@ -13,6 +22,23 @@ const AddGroup = ({ addGroupRef, onClick }) => {
       />
       {/* <input type="image" name="icon" id="icon-input" /> */}
       <button onClick={onClick}>Add</button>
+      {pickColor && (
+        <div className="color-palette">
+          {colors.map((col, ind) => {
+            return (
+              <div
+                key={ind}
+                style={{ backgroundColor: col }}
+                className="color"
+                onClick={() => {
+                  setColor(col);
+                  setPickColor(false);
+                }}
+              ></div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

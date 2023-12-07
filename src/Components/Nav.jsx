@@ -30,13 +30,19 @@ const Nav = ({ setCurrentView, setData, groups }) => {
 
   function addNewGroup() {
     const children = [...addGroupRef.current.childNodes];
-    const newGroup = children[0].value;
-    if (![...groups].includes(newGroup) && newGroup !== "") {
+    const newGroup = {};
+    newGroup.title = children[1].value;
+    newGroup.color = children[0].style.backgroundColor;
+    const exists = [...groups].reduce(
+      (prev, cur) => prev || cur.title === newGroup.title,
+      false
+    );
+    console.log(exists);
+    if (!exists && newGroup.title !== "") {
       setData((prev) => {
         return { ...prev, groups: [...prev.groups, newGroup] };
       });
     }
-
     setAddGroup(false);
   }
 
@@ -56,7 +62,7 @@ const Nav = ({ setCurrentView, setData, groups }) => {
           key={ind}
         >
           {/* <img src={clock} alt="clock icon" className="nav-img-icons" /> */}
-          {expand && <span>{group}</span>}
+          {expand && <span>{group.title}</span>}
         </button>
       );
     });
