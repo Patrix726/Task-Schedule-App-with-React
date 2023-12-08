@@ -100,7 +100,7 @@ function AddSchedule({ onSubmit, wrapperRef }) {
       {/* {!format && <input type="time" name="time" id="inputTime" />} */}
       {customInt && (
         <div className="repeat">
-          <h2>Repeat for...</h2>
+          <h2>Repeat every...</h2>
           <div className="input">
             <input
               type="number"

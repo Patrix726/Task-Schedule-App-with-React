@@ -8,6 +8,7 @@ import Nav from "./Components/Nav";
 import play from "./assets/play.svg";
 import pause from "./assets/pause.svg";
 import addTaskIcon from "./assets/addTask.svg";
+import trashCan from "./assets/trash - RED.ico";
 
 function App() {
   const [input, setInput] = useState(false);
@@ -275,6 +276,24 @@ function App() {
             {/* FIXME: The icon looks weird */}
             <img src={addTaskIcon} alt="Add Task" className="header-btn" />
           </button>
+          {currentView >= 3 && (
+            <button
+              className="removebtn"
+              onClick={() => {
+                let updated = [...data.groups];
+                updated = [
+                  ...updated.slice(0, currentView - 3),
+                  ...updated.slice(currentView - 2),
+                ];
+                setData((prev) => {
+                  return { ...prev, groups: updated };
+                });
+                setCurrentView(0);
+              }}
+            >
+              <img src={trashCan} alt="Remove" className="trash-can" />
+            </button>
+          )}
         </div>
       </div>
       <main>
