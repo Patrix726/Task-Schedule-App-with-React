@@ -18,7 +18,6 @@ const Timer = (props) => {
       }
     }
   }
-
   const [remainingTime, setRemainingTime] = useState(Date.now() + props.timer);
   function toggleOnClick() {
     if (countdownRef.current.isStopped() || countdownRef.current.isPaused()) {
@@ -44,7 +43,7 @@ const Timer = (props) => {
     }
     return (
       <button
-        className="countdown"
+        className={props.playing ? "countdown playing" : "countdown stopped"}
         onClick={toggleOnClick}
         onDoubleClick={resetTime}
       >
