@@ -9,7 +9,7 @@ body {
   justify-content: flex-start;
   align-items: center;
   position: fixed;
-  font-family: "Courier New", Courier, monospace;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   left: 0;
   top: 0;
   bottom: 0;
@@ -190,7 +190,7 @@ body {
   margin-bottom: 2rem;
 }
 .date-value {
-  color: #f4b860;
+  color: #ffb804;
 }
 .countdown {
   font-size: 2rem;

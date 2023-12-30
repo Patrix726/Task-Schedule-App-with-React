@@ -16,6 +16,7 @@ const Schedule = (props) => {
           timer={props.date}
           deadline={props.deadline}
           playAll={props.playAll}
+          setPlayAll={props.setPlayAll}
           playing={props.playing}
           currentPlaying={props.currentPlaying}
           setPlaying={props.setPlaying}

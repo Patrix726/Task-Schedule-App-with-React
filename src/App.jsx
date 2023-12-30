@@ -168,7 +168,7 @@ function App() {
     }
   }
   function removeItem(event) {
-    const component = event.target.parentNode.parentNode;
+    const component = event.target.parentNode.parentNode.parentNode;
     if (component.className === "schedule") {
       setData((prev) => {
         const filtered = prev.schedules.filter(
@@ -204,6 +204,7 @@ function App() {
           type={val.type}
           removeItem={removeItem}
           playAll={playAll}
+          setPlayAll={setPlayAll}
           playing={playAll && ind === playing}
           currentPlaying={playing}
           setPlaying={setPlaying}
@@ -280,13 +281,11 @@ function App() {
             <button
               className="removebtn"
               onClick={() => {
-                let updated = [...data.groups];
-                updated = [
-                  ...updated.slice(0, currentView - 3),
-                  ...updated.slice(currentView - 2),
-                ];
                 setData((prev) => {
-                  return { ...prev, groups: updated };
+                  const filtered = prev.groups.filter(
+                    (item, ind) => ind !== currentView - 3
+                  );
+                  return { ...prev, groups: filtered };
                 });
                 setCurrentView(0);
               }}

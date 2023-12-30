@@ -5,6 +5,7 @@ import Countdown from "react-countdown";
 const Timer = (props) => {
   const countdownRef = useRef();
   //TODO: Add a sound whenever timer is completed or a notification
+  //TODO: Show pause or play on hover on timer
   if (props.playing) {
     countdownRef.current.start();
   } else if (!props.playing) {
@@ -29,7 +30,6 @@ const Timer = (props) => {
   function resetTime() {
     countdownRef.current.pause();
     setRemainingTime(Date.now() + props.timer);
-    console.log(props.currentPlaying);
     if (props.currentPlaying > props.id) {
       props.setPlaying(props.id);
     }
@@ -65,6 +65,16 @@ const Timer = (props) => {
         ref={countdownRef}
         autoStart={false}
         onComplete={() => props.incrementPlaying(props.id)}
+        onStart={() => {
+          if (props.playAll) {
+            //Can display Error message if need be
+            props.setPlayAll(false);
+          } else {
+            props.setPlaying(props.id);
+            props.setPlayAll(true);
+          }
+        }}
+        onPause={() => props.setPlayAll(false)}
       />
     </>
   );
