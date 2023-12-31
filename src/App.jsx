@@ -64,7 +64,7 @@ function App() {
           return taskDate.toLocaleDateString() === date.toLocaleDateString();
         }
       } else {
-        return entry.group === currentView;
+        return entry.group === currentView && entry.completed;
       }
     }
     const filteredSchedules = data.schedules.filter((val) => filter(val));
@@ -155,6 +155,7 @@ function App() {
         return item.title === modData.title;
       });
       modData.group = currentView;
+      modData.isCompleted = false;
       if (duplicateTitle.length > 0) {
         modData.invalid = true;
         inputElements.forEach((item) => {
@@ -233,6 +234,10 @@ function App() {
     page.tasks &&
     page.tasks.map((val, ind) => {
       const deadline = new Date(val.date);
+
+      //To give all day for task completion
+      deadline.setHours(23, 59, 59, 99);
+
       return (
         <Task
           key={ind}
@@ -240,6 +245,8 @@ function App() {
           title={val.title}
           deadline={deadline}
           removeItem={removeItem}
+          setData={setData}
+          checked={val.isCompleted}
         />
       );
     });

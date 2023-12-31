@@ -6,29 +6,32 @@ import { calcTimeDelta } from "react-countdown";
 
 const Task = (props) => {
   const [expand, setExpand] = useState(false);
-  const [check, setCheck] = useState(
-    JSON.parse(localStorage.getItem(props.title)) || false
-  );
+
+  function toggleCheck() {
+    props.setData((prev) => {
+      let prevTasks = [...prev.tasks];
+      const clickedTask = prevTasks[props.id];
+      clickedTask.isCompleted = !props.checked;
+      prevTasks[props.id] = clickedTask;
+      return { ...prev, tasks: prevTasks };
+    });
+  }
 
   const difference = calcTimeDelta(props.deadline);
-  console.log(difference);
-
-  useEffect(() => {
-    localStorage.setItem(props.title, JSON.stringify(check));
-  }, [check, props.title]);
 
   return (
-    <div className={check ? "task checked" : "task"} id={props.id}>
+    <div className={props.checked ? "task checked" : "task"} id={props.id}>
       <div className="title-container">
         <input
           type="checkbox"
           name="todo"
           id="todo-check"
-          onChange={() => setCheck((prev) => !prev)}
-          checked={check}
+          // onChange={() => setCheck((prev) => !prev)}
+          // checked={check}
+          onChange={() => toggleCheck()}
         />
         <span
-          className={check ? "title checked" : "title"}
+          className={props.checked ? "title checked" : "title"}
           onClick={() => setExpand((prev) => !prev)}
         >
           {props.title}
