@@ -29,6 +29,7 @@ const Task = (props) => {
           // onChange={() => setCheck((prev) => !prev)}
           // checked={check}
           onChange={() => toggleCheck()}
+          checked={props.checked}
         />
         <span
           className={props.checked ? "title checked" : "title"}
@@ -37,11 +38,9 @@ const Task = (props) => {
           {props.title}
         </span>
         <span className="deadline">
-          {difference.completed
-            ? "Time's up!"
-            : difference.days
-            ? `${difference.days} Days`
-            : `< ${difference.days} Days`}
+          {!difference.days && "< "}
+          {difference.completed ? "Time's up!" : `${difference.days}`}
+          {difference.days > 1 ? " Days" : " Day"}
         </span>
       </div>
       {expand && (

@@ -9,6 +9,7 @@ import play from "./assets/play.svg";
 import pause from "./assets/pause.svg";
 import addTaskIcon from "./assets/addTask.svg";
 import trashCan from "./assets/trash - RED.ico";
+import { calcTimeDelta } from "react-countdown";
 
 function App() {
   const [input, setInput] = useState(false);
@@ -61,7 +62,10 @@ function App() {
           }
         } else {
           const taskDate = new Date(entry.date);
-          return taskDate.toLocaleDateString() === date.toLocaleDateString();
+          return (
+            taskDate.toLocaleDateString() === date.toLocaleDateString() &&
+            !entry.isCompleted
+          );
         }
       } else {
         return entry.group === currentView && entry.completed;
@@ -105,7 +109,7 @@ function App() {
     modData.repeatData = repeatData;
     inputElements.forEach((val) => {
       if (val.type !== "submit") {
-        if (val.value === "") {
+        if (val.value === "" && val.type !== "date") {
           modData.invalid = true;
           val.classList.add("invalid");
         }
@@ -156,6 +160,21 @@ function App() {
       });
       modData.group = currentView;
       modData.isCompleted = false;
+      modData.hasDeadline = modData.date !== "";
+      if (modData.hasDeadline) {
+        modData.date = new Date(modData.date);
+        modData.date.setHours(23, 59, 59, 99);
+        const dif = calcTimeDelta(modData.date).total;
+        if (dif <= 0) {
+          modData.invalid = true;
+          inputElements.forEach((item) => {
+            if (item.type === "date") {
+              item.classList.add("invalid");
+            }
+          });
+        } else {
+        }
+      }
       if (duplicateTitle.length > 0) {
         modData.invalid = true;
         inputElements.forEach((item) => {
@@ -243,7 +262,7 @@ function App() {
           key={ind}
           id={ind}
           title={val.title}
-          deadline={deadline}
+          deadline={val.date}
           removeItem={removeItem}
           setData={setData}
           checked={val.isCompleted}
