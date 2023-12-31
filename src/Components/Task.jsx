@@ -10,12 +10,10 @@ const Task = (props) => {
   function toggleCheck() {
     props.setData((prev) => {
       let prevTasks = [...prev.tasks];
-
       const [clickedTask] = prevTasks.splice(props.id, 1);
       clickedTask.isCompleted = !props.checked;
       if (clickedTask.isCompleted) prevTasks.push(clickedTask);
       else prevTasks.unshift(clickedTask);
-      console.log(clickedTask);
       return { ...prev, tasks: prevTasks };
     });
   }

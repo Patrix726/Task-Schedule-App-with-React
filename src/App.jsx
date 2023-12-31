@@ -184,7 +184,7 @@ function App() {
       }
       if (!modData.invalid) {
         setData((prev) => {
-          return { ...prev, tasks: [...prev.tasks, modData] };
+          return { ...prev, tasks: [modData, ...prev.tasks] };
         });
         setInput(false);
       }
@@ -247,7 +247,6 @@ function App() {
         />
       );
     });
-
   const tasksData =
     page.tasks &&
     page.tasks.map((val, ind) => {
