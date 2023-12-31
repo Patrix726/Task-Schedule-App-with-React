@@ -172,7 +172,6 @@ function App() {
               item.classList.add("invalid");
             }
           });
-        } else {
         }
       }
       if (duplicateTitle.length > 0) {
@@ -252,11 +251,6 @@ function App() {
   const tasksData =
     page.tasks &&
     page.tasks.map((val, ind) => {
-      const deadline = new Date(val.date);
-
-      //To give all day for task completion
-      deadline.setHours(23, 59, 59, 99);
-
       return (
         <Task
           key={ind}
@@ -269,6 +263,7 @@ function App() {
         />
       );
     });
+
   const header = [
     <>
       <span>Today's Schedule</span>

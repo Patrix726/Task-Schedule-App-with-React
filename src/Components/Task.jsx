@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import trashCan from "../assets/trash - RED.ico";
 import { calcTimeDelta } from "react-countdown";
 
@@ -10,9 +10,12 @@ const Task = (props) => {
   function toggleCheck() {
     props.setData((prev) => {
       let prevTasks = [...prev.tasks];
-      const clickedTask = prevTasks[props.id];
+
+      const [clickedTask] = prevTasks.splice(props.id, 1);
       clickedTask.isCompleted = !props.checked;
-      prevTasks[props.id] = clickedTask;
+      if (clickedTask.isCompleted) prevTasks.push(clickedTask);
+      else prevTasks.unshift(clickedTask);
+      console.log(clickedTask);
       return { ...prev, tasks: prevTasks };
     });
   }
