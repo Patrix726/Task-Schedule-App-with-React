@@ -37,44 +37,48 @@ function App() {
   }, [wrapperRef]);
   useEffect(() => {
     localStorage.setItem("data", JSON.stringify(data));
-    function filter(schedule) {
+    function filter(entry) {
       const date = new Date();
       if (currentView === 0) {
-        const repeatData = schedule.repeatData;
-        const createdDate = new Date(schedule.dateCreated);
-        const diffTime = Math.abs(date - createdDate);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        const gap = [1, 7, 30, 365];
-        if (repeatData.selectedDays) {
-          return repeatData.selectedDays.includes(date.getDay());
-        } else if (repeatData) {
-          return (
-            diffDays < 1 ||
-            diffDays %
-              (parseInt(repeatData.intervalNum) *
-                gap[repeatData.intervalGap]) ===
-              0
-          );
+        if (entry.type === "0") {
+          const repeatData = entry.repeatData;
+          const createdDate = new Date(entry.dateCreated);
+          const diffTime = Math.abs(date - createdDate);
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+          const gap = [1, 7, 30, 365];
+          if (repeatData.selectedDays) {
+            return repeatData.selectedDays.includes(date.getDay());
+          } else if (repeatData) {
+            return (
+              diffDays < 1 ||
+              diffDays %
+                (parseInt(repeatData.intervalNum) *
+                  gap[repeatData.intervalGap]) ===
+                0
+            );
+          } else {
+            return date.getDate() === createdDate.getDate();
+          }
         } else {
-          return date.getDate() === createdDate.getDate();
+          const taskDate = new Date(entry.date);
+          return taskDate.toLocaleDateString() === date.toLocaleDateString();
         }
       } else {
-        return schedule.group === currentView;
+        return entry.group === currentView;
       }
     }
+    const filteredSchedules = data.schedules.filter((val) => filter(val));
+    const filteredTasks = data.tasks.filter((val) => filter(val));
     if (currentView === 0) {
-      const filteredSchedules = data.schedules.filter((val) => filter(val));
       setPage({
         schedules: filteredSchedules,
-        tasks: data.tasks,
+        tasks: filteredTasks,
       });
     } else if (currentView === 1) {
       setPage({ schedules: data.schedules, tasks: [] });
     } else if (currentView === 2) {
       setPage({ schedules: [], tasks: data.tasks });
     } else {
-      const filteredSchedules = data.schedules.filter((val) => filter(val));
-      const filteredTasks = data.tasks.filter((val) => filter(val));
       setPage({
         schedules: filteredSchedules,
         tasks: filteredTasks,
@@ -228,14 +232,13 @@ function App() {
   const tasksData =
     page.tasks &&
     page.tasks.map((val, ind) => {
-      const [year, month, day] = val.date.split("-");
-      const deadline = new Date(year, month, day);
+      const deadline = new Date(val.date);
       return (
         <Task
           key={ind}
           id={ind}
           title={val.title}
-          deadline={deadline.toLocaleDateString()}
+          deadline={deadline}
           removeItem={removeItem}
         />
       );

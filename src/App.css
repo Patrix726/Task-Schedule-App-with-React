@@ -345,6 +345,10 @@ button#submit-btn {
   justify-content: center;
 }
 .deadline {
+  /* width: 2rem;
+  display: flex;
+  justify-content: center; */
+  text-wrap: nowrap;
   font-size: 1.2rem;
   font-family: monospace;
   padding: 2px;

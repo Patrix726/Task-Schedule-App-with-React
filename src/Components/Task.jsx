@@ -2,15 +2,21 @@
 
 import { useEffect, useState } from "react";
 import trashCan from "../assets/trash - RED.ico";
+import { calcTimeDelta } from "react-countdown";
 
 const Task = (props) => {
   const [expand, setExpand] = useState(false);
   const [check, setCheck] = useState(
     JSON.parse(localStorage.getItem(props.title)) || false
   );
+
+  const difference = calcTimeDelta(props.deadline);
+  console.log(difference);
+
   useEffect(() => {
     localStorage.setItem(props.title, JSON.stringify(check));
   }, [check, props.title]);
+
   return (
     <div className={check ? "task checked" : "task"} id={props.id}>
       <div className="title-container">
@@ -27,7 +33,13 @@ const Task = (props) => {
         >
           {props.title}
         </span>
-        <span className="deadline">{props.deadline.toString()}</span>
+        <span className="deadline">
+          {difference.completed
+            ? "Time's up!"
+            : difference.days
+            ? `${difference.days} Days`
+            : `< ${difference.days} Days`}
+        </span>
       </div>
       {expand && (
         <div className="detail">
