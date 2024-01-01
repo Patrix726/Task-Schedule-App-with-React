@@ -5,7 +5,6 @@ import Countdown from "react-countdown";
 const Timer = (props) => {
   const countdownRef = useRef();
   //TODO: Add a sound whenever timer is completed or a notification
-  //TODO: Move completed tasks and schedules at the bottom of the list
   if (props.playing) {
     countdownRef.current.start();
   } else if (!props.playing) {

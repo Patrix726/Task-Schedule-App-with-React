@@ -2,6 +2,7 @@ import { useState } from "react";
 
 // eslint-disable-next-line react/prop-types
 const AddGroup = ({ addGroupRef, onClick }) => {
+  //TODO: Add an icon for showing the color of a group
   const [pickColor, setPickColor] = useState(false);
   const [color, setColor] = useState("red");
   const colors = ["red", "blue", "green", "orange", "yellow", "violet", "grey"];
@@ -20,7 +21,6 @@ const AddGroup = ({ addGroupRef, onClick }) => {
         placeholder="Enter Group Name"
         autoFocus
       />
-      {/* <input type="image" name="icon" id="icon-input" /> */}
       <button onClick={onClick}>Add</button>
       {pickColor && (
         <div className="color-palette">

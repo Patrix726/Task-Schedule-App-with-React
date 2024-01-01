@@ -37,7 +37,6 @@ const Nav = ({ setCurrentView, setData, groups }) => {
       (prev, cur) => prev || cur.title === newGroup.title,
       false
     );
-    console.log(exists);
     if (!exists && newGroup.title !== "") {
       setData((prev) => {
         return { ...prev, groups: [...prev.groups, newGroup] };

@@ -39,9 +39,13 @@ const Task = (props) => {
           {props.title}
         </span>
         <span className="deadline">
-          {!difference.days && "< "}
+          {!difference.completed && !difference.days && "< "}
           {difference.completed ? "Time's up!" : `${difference.days}`}
-          {difference.days > 1 ? " Days" : " Day"}
+          {!difference.completed
+            ? difference.days > 1
+              ? " Days"
+              : " Day"
+            : ""}
         </span>
       </div>
       {expand && (
