@@ -20,16 +20,25 @@ function App() {
       groups: [],
     }
   );
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(
+    JSON.parse(localStorage.getItem("darkMode")) || false
+  );
   const [currentView, setCurrentView] = useState(0);
   const [page, setPage] = useState({});
   const [playAll, setPlayAll] = useState(false);
   const [playing, setPlaying] = useState(0);
   const wrapperRef = useRef();
   useEffect(() => {
+    localStorage.setItem("darkMode", darkMode);
     const body = document.querySelector("body");
-    body.classList.toggle("dark");
+    body.classList.toggle("darkbody");
   }, [darkMode]);
+  useEffect(() => {
+    if (darkMode) {
+      const body = document.querySelector("body");
+      body.classList.add("darkbody");
+    }
+  }, []);
   useEffect(() => {
     function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -333,7 +342,7 @@ function App() {
           )}
         </div>
       </div>
-      <main className={darkMode && "dark"}>
+      <main className={darkMode ? "dark" : "light"}>
         <div className="main-header">
           {page.schedules?.length > 0 && (
             <button

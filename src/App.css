@@ -3,7 +3,7 @@ body {
   display: flex;
   justify-content: center;
 }
-body.dark {
+body.darkbody {
   background-color: #111726;
 }
 .nav {
