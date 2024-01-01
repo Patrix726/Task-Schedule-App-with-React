@@ -2,6 +2,8 @@
 body {
   display: flex;
   justify-content: center;
+  transition: all 0.5s ease;
+  background-color: #fdf2f6;
 }
 body.darkbody {
   background-color: #111726;
