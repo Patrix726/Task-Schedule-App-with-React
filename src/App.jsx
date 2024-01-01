@@ -20,11 +20,16 @@ function App() {
       groups: [],
     }
   );
+  const [darkMode, setDarkMode] = useState(false);
   const [currentView, setCurrentView] = useState(0);
   const [page, setPage] = useState({});
   const [playAll, setPlayAll] = useState(false);
   const [playing, setPlaying] = useState(0);
   const wrapperRef = useRef();
+  useEffect(() => {
+    const body = document.querySelector("body");
+    body.classList.toggle("dark");
+  }, [darkMode]);
   useEffect(() => {
     function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -274,6 +279,10 @@ function App() {
     <span key={1}>All Schedules</span>,
     <span key={2}>All Tasks</span>,
     <>
+      <div
+        className="group-banner"
+        style={{ background: data.groups[currentView - 3]?.color }}
+      ></div>
       <span>Custom Groups</span>
       <br />
       <span>{data.groups[currentView - 3]?.title}</span>
@@ -286,11 +295,17 @@ function App() {
         setData={setData}
         groups={data.groups}
       />
-      <div className="header">
+      <div className={darkMode ? "header dark" : "header"}>
         <div className="title-date">
           {currentView < 3 ? header[currentView] : header[3]}
         </div>
         <div className="title-btns">
+          <button
+            className="btn-dark"
+            onClick={() => setDarkMode((prev) => !prev)}
+          >
+            Toggle
+          </button>
           <button
             className="addbtn"
             onClick={() => {
@@ -318,7 +333,7 @@ function App() {
           )}
         </div>
       </div>
-      <main>
+      <main className={darkMode && "dark"}>
         <div className="main-header">
           {page.schedules?.length > 0 && (
             <button

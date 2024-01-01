@@ -3,6 +3,9 @@ body {
   display: flex;
   justify-content: center;
 }
+body.dark {
+  background-color: #111726;
+}
 .nav {
   display: flex;
   flex-direction: column;
@@ -174,6 +177,13 @@ body {
 .main-header img {
   height: 100%;
 }
+.btn-dark {
+  position: absolute;
+  color: white;
+  padding: 10px;
+  background-color: #f4b8f0;
+  border-radius: 10px;
+}
 .addbtn {
   position: absolute;
   right: 18vw;
@@ -189,8 +199,17 @@ body {
   margin-top: 1rem;
   margin-bottom: 2rem;
 }
+.dark .title-date {
+  color: white;
+}
 .date-value {
   color: #ffb804;
+}
+.group-banner {
+  position: absolute;
+  width: 25px;
+  height: 100px;
+  transform: translateX(-50px);
 }
 .countdown {
   font-size: 2rem;
@@ -245,6 +264,15 @@ body {
   align-items: center;
   margin: 10px 0;
 }
+.dark .schedule {
+  background: #f4b8f0;
+}
+.dark .detail {
+  background: rgba(204, 144, 200, 0.541);
+}
+.dark .task {
+  background: rgb(55, 177, 177);
+}
 .task {
   width: 50vw;
   border-radius: 20px;
@@ -278,6 +306,7 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 10px 20px;
+  border-radius: 0 0 20px 20px;
 }
 #todo-check {
   margin-left: 30px;
