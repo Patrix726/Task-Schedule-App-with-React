@@ -31,14 +31,13 @@ function App() {
   useEffect(() => {
     localStorage.setItem("darkMode", darkMode);
     const body = document.querySelector("body");
-    body.classList.toggle("darkbody");
-  }, [darkMode]);
-  useEffect(() => {
-    if (darkMode) {
-      const body = document.querySelector("body");
-      body.classList.add("darkbody");
+    if (body.classList.contains("darkbody")) {
+      body.classList.toggle("darkbody");
+    } else {
+      darkMode && body.classList.add("darkbody");
     }
-  }, []);
+  }, [darkMode]);
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
