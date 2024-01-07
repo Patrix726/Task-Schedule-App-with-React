@@ -53,6 +53,9 @@ body.darkbody {
   border: 0;
   margin-bottom: auto;
 }
+.group-title {
+  margin-left: 10px;
+}
 .nav-img-icons {
   width: 30px;
   margin: 10px 0;
