@@ -2,7 +2,6 @@ import { useState } from "react";
 
 // eslint-disable-next-line react/prop-types
 const AddGroup = ({ addGroupRef, onClick }) => {
-  //TODO: Add an icon for showing the color of a group
   const [pickColor, setPickColor] = useState(false);
   const [color, setColor] = useState("red");
   const colors = ["red", "blue", "green", "orange", "yellow", "violet", "grey"];
