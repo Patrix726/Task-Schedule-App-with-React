@@ -345,6 +345,9 @@ body.darkbody {
   box-shadow: rgba(0, 0, 0, 0.225) 10px 10px 50px 100vw;
   transition: all 0.5s;
 }
+.darkbody .inputSchedule {
+  background-color: #f4b8f0;
+}
 .inputSchedule * {
   padding: 5px;
   padding-left: 20px;
