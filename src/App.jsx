@@ -31,7 +31,7 @@ function App() {
   useEffect(() => {
     localStorage.setItem("darkMode", darkMode);
     const body = document.querySelector("body");
-    if (body.classList.contains("darkbody")) {
+    if (body.classList.contains("darkbody") && !darkMode) {
       body.classList.toggle("darkbody");
     } else {
       darkMode && body.classList.add("darkbody");
