@@ -8,9 +8,15 @@ import closeSvg from "../assets/close.svg";
 import expandSvg from "../assets/expand.svg";
 import AddGroup from "./AddGroup";
 
-const Nav = ({ setCurrentView, setData, groups }) => {
-  const [expand, setExpand] = useState(getValue());
-  const [addGroup, setAddGroup] = useState(false);
+function useExpand(value) {
+  const [expand, setExpand] = useState(value);
+  useEffect(() => {
+    localStorage.setItem("nav", JSON.stringify(expand));
+  }, [expand]);
+  return [expand, setExpand];
+}
+
+function useAddGroupRef(setAddGroup) {
   const addGroupRef = useRef();
   useEffect(() => {
     function handleClickOutside(event) {
@@ -22,11 +28,13 @@ const Nav = ({ setCurrentView, setData, groups }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [addGroupRef]);
-
-  useEffect(() => {
-    localStorage.setItem("nav", JSON.stringify(expand));
-  }, [expand]);
+  }, [addGroupRef, setAddGroup]);
+  return addGroupRef;
+}
+const Nav = ({ setCurrentView, setData, groups }) => {
+  const [expand, setExpand] = useExpand(getNavValue());
+  const [addGroup, setAddGroup] = useState(false);
+  const addGroupRef = useAddGroupRef(setAddGroup);
 
   function addNewGroup() {
     const children = [...addGroupRef.current.childNodes];
@@ -45,7 +53,7 @@ const Nav = ({ setCurrentView, setData, groups }) => {
     setAddGroup(false);
   }
 
-  function getValue() {
+  function getNavValue() {
     const val = JSON.parse(localStorage.getItem("nav"));
     return val === null ? true : val;
   }

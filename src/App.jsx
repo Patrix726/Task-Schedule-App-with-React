@@ -10,24 +10,10 @@ import pause from "./assets/pause.svg";
 import addTaskIcon from "./assets/addTask.svg";
 import trashCan from "./assets/trash - RED.ico";
 import { calcTimeDelta } from "react-countdown";
-
-function App() {
-  const [input, setInput] = useState(false);
-  const [data, setData] = useState(
-    JSON.parse(localStorage.getItem("data")) || {
-      schedules: [],
-      tasks: [],
-      groups: [],
-    }
-  );
+function useDarkMode() {
   const [darkMode, setDarkMode] = useState(
     JSON.parse(localStorage.getItem("darkMode")) || false
   );
-  const [currentView, setCurrentView] = useState(0);
-  const [page, setPage] = useState({});
-  const [playAll, setPlayAll] = useState(false);
-  const [playing, setPlaying] = useState(0);
-  const wrapperRef = useRef();
   useEffect(() => {
     localStorage.setItem("darkMode", darkMode);
     const body = document.querySelector("body");
@@ -37,6 +23,11 @@ function App() {
       body.classList.add("darkbody");
     }
   }, [darkMode]);
+  return [darkMode, setDarkMode];
+}
+
+function useWrapperRef(setInput) {
+  const wrapperRef = useRef();
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -48,7 +39,27 @@ function App() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [wrapperRef]);
+  }, [wrapperRef, setInput]);
+  return wrapperRef;
+}
+
+function App() {
+  const [input, setInput] = useState(false);
+  const [data, setData] = useState(
+    JSON.parse(localStorage.getItem("data")) || {
+      schedules: [],
+      tasks: [],
+      groups: [],
+    }
+  );
+
+  const [darkMode, setDarkMode] = useDarkMode();
+  const [currentView, setCurrentView] = useState(0);
+  const [page, setPage] = useState({});
+  const [playAll, setPlayAll] = useState(false);
+  const [playing, setPlaying] = useState(0);
+  const wrapperRef = useWrapperRef(setInput);
+
   useEffect(() => {
     localStorage.setItem("data", JSON.stringify(data));
     function filter(entry) {
@@ -104,16 +115,6 @@ function App() {
   }, [currentView, data]);
 
   const date = new Date();
-  const weekday = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-
   function onSubmit(repeatData) {
     const inputElements = [...wrapperRef.current.childNodes];
     let modData = {};
@@ -221,6 +222,16 @@ function App() {
       });
     }
   }
+
+  const weekday = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
   const schedulesData =
     page.schedules &&
     page.schedules.map((val, ind) => {
