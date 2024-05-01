@@ -189,6 +189,9 @@ body.darkbody {
   background-color: #f4b8f0;
   border-radius: 10px;
 }
+.darkbody .btn-dark {
+  color: black;
+}
 .addbtn {
   position: absolute;
   right: 18vw;
