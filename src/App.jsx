@@ -31,10 +31,10 @@ function App() {
   useEffect(() => {
     localStorage.setItem("darkMode", darkMode);
     const body = document.querySelector("body");
-    if (body.classList.contains("darkbody") && !darkMode) {
-      body.classList.toggle("darkbody");
+    if (!darkMode) {
+      body.classList.remove("darkbody");
     } else {
-      darkMode && body.classList.add("darkbody");
+      body.classList.add("darkbody");
     }
   }, [darkMode]);
 
